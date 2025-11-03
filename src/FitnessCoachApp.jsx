@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Camera, Dumbbell, Apple, Volume2, Download, RefreshCw, Moon, Sun, Sparkles, Heart } from 'lucide-react';
 import './index';
+import { generateFitnessPlan } from './geminiService';
 
 const FitnessCoachApp = () => {
   const [darkMode, setDarkMode] = useState(false);
