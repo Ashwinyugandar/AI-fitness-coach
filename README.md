@@ -1,70 +1,160 @@
-# Getting Started with Create React App
+# 🏋️‍♀️ Fitness Coach App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An intelligent **AI-powered fitness coach** built with **React.js** and **Google Gemini API** that generates personalized **training routines** and **diet plans** based on user preferences and fitness goals.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Features
 
-### `npm start`
+- 💪 **Personalized Training Plan:**  
+  Generates a full 7-day workout plan tailored to the user’s age, goal, and experience level.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 🥗 **Smart Diet Recommendations:**  
+  Suggests healthy meals with calorie and macro balance — fully aligned with the user’s dietary preference (Veg, Vegan, Non-Veg, Keto).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 🤖 **Gemini AI Integration:**  
+  Uses Google’s **Gemini API** to dynamically generate customized fitness plans in real time.
 
-### `npm test`
+- 🌗 **Dark & Light Mode:**  
+  Toggle between light and dark themes for a better user experience.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 🔁 **Refresh & Reset Options:**  
+  Easily refresh the plan or start over with a new set of preferences.
 
-### `npm run build`
+- 📥 **Download Option:**  
+  Export your generated plan for offline reference.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- ⚡ **Fallback System:**  
+  If Gemini API fails, the app automatically displays a sample default plan.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🧠 Tech Stack
 
-### `npm run eject`
+| Technology | Purpose |
+|-------------|----------|
+| **React.js** | Frontend framework |
+| **Tailwind CSS / Lucide Icons** | UI styling and icons |
+| **Google Gemini API** | AI-based plan generation |
+| **Node.js (optional)** | Proxy backend (for API security) |
+| **JavaScript (ES6)** | Core logic |
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🗂️ Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+fitness-coach-app/
+│
+├── src/
+│ ├── FitnessCoachApp.jsx # Main React component
+│ ├── geminiService.js # Handles Gemini API requests
+│ ├── index.js # React entry point
+│ └── App.css # Styling
+│
+├── public/
+│ └── index.html
+│
+├── .env # Environment variables (API key)
+├── package.json
+└── README.md
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## 🔑 Environment Setup
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Create a `.env` file** in the project root:
+   ```bash
+   REACT_APP_GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+⚠️ Make sure there are no spaces or quotes around the key.
+Restart the development server after adding the .env file.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Install dependencies
+In bash
+npm install
 
-### Code Splitting
+Run the app
+In bash
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Access in browser
+http://localhost:3000
 
-### Analyzing the Bundle Size
+🧩 Gemini API Setup (Optional Backend Proxy)
+To avoid CORS issues and keep your key safe, you can use a backend proxy.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Example (server.js):
 
-### Making a Progressive Web App
+js
+Copy code
+import express from "express";
+import cors from "cors";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import dotenv from "dotenv";
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+dotenv.config();
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-### Advanced Configuration
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+app.post("/api/generate", async (req, res) => {
+  try {
+    const { prompt } = req.body;
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const result = await model.generateContent(prompt);
+    res.json({ text: result.response.text() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
-### Deployment
+app.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));
+Then replace the Gemini call in geminiService.js with a fetch request to http://localhost:5000/api/generate.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+📋 How It Works
+The user fills out personal data and preferences.
 
-### `npm run build` fails to minify
+The app sends a prompt to the Gemini API with the user’s details.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Gemini returns a structured JSON response (plan + diet).
+
+The app parses, validates, and displays it beautifully in the UI.
+
+Users can toggle themes, download, or refresh the plan.
+
+🧩 Example Gemini Prompt
+text
+Copy code
+Generate a detailed 7-day fitness and diet plan for a 25-year-old male,
+goal: muscle gain, diet: vegan, experience: intermediate, workout at home.
+Return JSON with "training" and "diet" fields only.
+🩺 Example Output
+json
+Copy code
+{
+  "training": {
+    "Monday": ["Push-ups", "Squats", "Plank"],
+    "Tuesday": ["Jump rope", "Lunges", "Sit-ups"]
+  },
+  "diet": {
+    "Breakfast": "Oats with almond milk and berries",
+    "Lunch": "Quinoa salad with tofu and greens",
+    "Dinner": "Lentil soup with brown rice"
+  }
+}
+🧑‍💻 Contributors
+Ashwin S – Developer & Project Lead
+
+Gemini API – AI content generation support
+
+🏁 Future Enhancements
+🗣️ Voice-based AI trainer
+
+🧘 Yoga & mindfulness recommendations
+
+🕓 Daily progress tracker
+
+☁️ Cloud sync with Firebase or Supabase
+
+📱 Mobile app version (React Native)
+
