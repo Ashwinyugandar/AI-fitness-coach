@@ -67,18 +67,18 @@ fitness-coach-app/
 ⚠️ Make sure there are no spaces or quotes around the key.
 Restart the development server after adding the .env file.
 
-Install dependencies
+###Install dependencies
 In bash
 npm install
 
-Run the app
+###Run the app
 In bash
 npm start
 
-Access in browser
+###Access in browser
 http://localhost:3000
 
-🧩 Gemini API Setup (Optional Backend Proxy)
+###🧩 Gemini API Setup (Optional Backend Proxy)
 To avoid CORS issues and keep your key safe, you can use a backend proxy.
 
 Example (server.js):
@@ -111,7 +111,7 @@ app.post("/api/generate", async (req, res) => {
 app.listen(5000, () => console.log("✅ Server running on http://localhost:5000"));
 Then replace the Gemini call in geminiService.js with a fetch request to http://localhost:5000/api/generate.
 
-📋 How It Works
+###📋 How It Works
 The user fills out personal data and preferences.
 
 The app sends a prompt to the Gemini API with the user’s details.
@@ -122,7 +122,7 @@ The app parses, validates, and displays it beautifully in the UI.
 
 Users can toggle themes, download, or refresh the plan.
 
-🧩 Example Gemini Prompt
+###🧩 Example Gemini Prompt
 text
 Copy code
 Generate a detailed 7-day fitness and diet plan for a 25-year-old male,
@@ -142,12 +142,12 @@ Copy code
     "Dinner": "Lentil soup with brown rice"
   }
 }
-🧑‍💻 Contributors
+##🧑‍💻 Contributors
 Ashwin S – Developer & Project Lead
 
 Gemini API – AI content generation support
 
-🏁 Future Enhancements
+##🏁 Future Enhancements
 🗣️ Voice-based AI trainer
 
 🧘 Yoga & mindfulness recommendations
